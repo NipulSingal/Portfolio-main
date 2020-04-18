@@ -21,7 +21,13 @@ body {
   @media screen and (max-width: 992px) {
     body {
       font-size: 16px; } }
-
+.whatsapp{
+  position: fixed;
+  bottom: 18px;
+  right: 12px;
+  height: 70px;
+  width: 70px;
+}
 a {
   color: #2c98f0;
   -webkit-transition: 0.5s;
