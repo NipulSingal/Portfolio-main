@@ -1469,3 +1469,10 @@ body.offcanvas {
 
 .js .animate-box {
   opacity: 0; }
+
+
+@media(prefers-color-scheme:dark){
+  .main{
+    background-color: black;
+  }
+}
