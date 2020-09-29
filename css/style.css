@@ -84,7 +84,7 @@ figure {
   padding-bottom: 40px;
   float: left;
   width: 350px;
-  position: relative;
+  position: fixed;
   overflow-y: scroll;
   z-index: 1001;
   background: #f2f3f7;
