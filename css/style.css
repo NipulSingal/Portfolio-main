@@ -344,10 +344,10 @@ figure {
               font-size: 65px; font-weight: 700; font-style: normal; } }
           @media screen and (max-width: 768px) {
             #colorlib-hero .flexslider .slider-text > .slider-text-inner h2 {
-              font-size: 25px; font-weight: 200; font-style: normal;} }
+              font-size: 25px; font-weight: 500; font-style: normal;} }
           @media screen and (max-width: 768px) {
             #colorlib-hero .flexslider .slider-text > .slider-text-inner h3 {
-              font-size: 25px; font-weight: 200; font-style: normal;} }
+              font-size: 25px; font-weight: 500; font-style: normal;} }
         /* #colorlib-hero .flexslider .slider-text > .slider-text-inner h2 {
           font-size: 18px;
           line-height: 1.5;
