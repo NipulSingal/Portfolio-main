@@ -84,7 +84,7 @@ figure {
   padding-bottom: 40px;
   float: left;
   width: 350px;
-  position: fixed;
+  position: relative;
   overflow-y: scroll;
   z-index: 1001;
   background: #f2f3f7;
@@ -395,9 +395,7 @@ figure {
                 border-radius: 5px;
                 padding: 15px 50px;
                 background: transparent;
-                border: 1px solid #00f;
-                -webkit-box-shadow: 0 0 20px rgba(0,0,255,1);
-                box-shadow: 0 0 20px rgba(0,0,255,1);
+                
                 margin-top: 20px;
                 font-weight: 500;
                 font-size: 18px;
