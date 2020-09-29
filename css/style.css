@@ -244,12 +244,18 @@ figure {
       padding: 0 1em; } }
 
 #colorlib-hero {
-  min-height: 500px;
-  background: #fff url(../images/loader.gif) no-repeat center center;
+  height: 100vh;
+  background: #fff url(../images/loader.gif) no-repeat center bottom;
   width: 100%;
   float: left;
-  margin-bottom: 10em;
+  margin-bottom: 0;
   clear: both; }
+  @media screen and (max-width: 768px) {
+    #colorlib-hero {
+      padding: 0 0;
+    }
+  }
+
   #colorlib-hero .flexslider {
     border: none;
     z-index: 1;
@@ -461,8 +467,8 @@ body.offcanvas {
     .colorlib-about,
     .colorlib-services,
     .colorlib-contact {
-      padding-top: 5em;
-      padding-bottom: 8em; } }
+      padding-top: 2em;
+      padding-bottom: 2em; } }
 
 .author-img {
   background-size: cover;
