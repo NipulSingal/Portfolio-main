@@ -1056,7 +1056,7 @@ body.offcanvas {
             .project .desc .con .icon span a:hover {
               color: black;
               padding: 5px;
-              background: cyan;
+              background: rgba(0, 195, 255, 0.7);
               -webkit-border-radius: 4px;
               -moz-border-radius: 4px;
               -ms-border-radius: 4px;
@@ -1083,7 +1083,7 @@ body.offcanvas {
         color: #fff; }
     .project .desc span {
       display: block;
-      color: #333333;
+      color: black;
       font-size: 13px;
       -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
       -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
@@ -1097,17 +1097,17 @@ body.offcanvas {
         color: #000; }
     @media screen and (max-width: 768px) {
       .project .desc {
-        opacity: 1;
-        background: rgba(0, 0, 0, 0.8); }
+        /* opacity: 1;
+        background: rgba(0, 0, 0, 0.8);*/ }
         .project .desc h3 {
           font-style: 28px;
           -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
-          color: white; }
+           }
         .project .desc span {
           -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
-          color: white; } }
+           } }
   .project:hover .desc {
     opacity: 1; }
     .project:hover .desc h3 {
