@@ -286,25 +286,393 @@
 		})
 	};
 
-	// Document on load.
 	$(function(){
 		fullHeight();
 		counter();
 		counterWayPoint();
 		contentWayPoint();
 		burgerMenu();
-
 		clickMenu();
-		// navActive();
 		navigationSection();
-		// windowScroll();
-
-
 		mobileMenuOutsideClick();
 		sliderMain();
-		stickyFunction();
+		// stickyFunction();
 		owlCrouselFeatureSlide();
-	});
+	
+		const apiUrl = 'https://us-central1-portfolio-api-2-4a95a.cloudfunctions.net/api/api/fetch-data'; // Replace with your actual API
+
+		// Fetch the data
+		fetch(apiUrl)
+			.then(response => response.json())
+			.then(data => {
+				console.log(data)
+				// Skills Section
+				const skillsContainer = document.getElementById('skills-list');
+				const skillsHTML = data.skills.map(skill => {
+					return `
+						<img style="width: 50px; margin: 10px;" 
+									src="${skill.icon}" 
+									title="${skill.name}" />
+					`;
+				}).join('');
+				skillsContainer.innerHTML = skillsHTML;
+
+				// Work Experience Section
+				const workExperienceSection = document.getElementById('work-experience-section');
+				data.experiences.forEach((exp, i) => {
+          // Create the HTML structure for each work experience
+          const timelineEntry = document.createElement('article');
+          timelineEntry.classList.add('timeline-entry');
+
+          const timelineEntryInner = document.createElement('div');
+          timelineEntryInner.classList.add('timeline-entry-inner');
+
+          const timelineIcon = document.createElement('div');
+					const colorClass = `color-${i + 1}`;
+          timelineIcon.classList.add('timeline-icon', colorClass);
+          timelineIcon.innerHTML = '<i class="icon-pen2"></i>';
+
+          const timelineLabel = document.createElement('div');
+          timelineLabel.classList.add('timeline-label');
+
+          const h2 = document.createElement('h2');
+          h2.innerHTML = `${exp.title} at <a href="${exp.url}" target="_blank">${exp.company}</a> <span>${exp.start_date} - ${exp.end_date}</span>`;
+
+          const ul = document.createElement('ul');
+          exp.description.forEach(responsibility => {
+            const li = document.createElement('li');
+            li.innerHTML = responsibility;
+            ul.appendChild(li);
+          });
+
+          timelineLabel.appendChild(h2);
+          timelineLabel.appendChild(ul);
+
+					if (exp.certificate && exp.certificate.data.length > 0) {
+            const p = document.createElement('p');
+            p.textContent = exp.certificate.title;
+
+            exp.certificate.data.forEach((certificate, certIndex) => {
+              const a = document.createElement('a');
+              a.href = certificate.url;
+              a.target = '_blank';
+              a.textContent = certificate.name;
+
+              p.appendChild(a);
+
+              // If there are multiple certificates, add a separator between them
+              if (certIndex < exp.certificate.data.length - 1) {
+                p.innerHTML += ' | '; // Add separator for multiple certificates
+              }
+            });
+
+            timelineLabel.appendChild(p); // Append the certificate paragraph after the ul
+          }
+
+          timelineEntryInner.appendChild(timelineIcon);
+          timelineEntryInner.appendChild(timelineLabel);
+          timelineEntry.appendChild(timelineEntryInner);
+
+          // Append each timeline entry to the work experience section
+          workExperienceSection.appendChild(timelineEntry);
+				});
+
+
+					// Recommendations Section
+				const RecommendationsSection = document.getElementById('recommendations-section');
+				data.recommendations.forEach((rec, i) => {
+          // Create the HTML structure for each work experience
+          const timelineEntry = document.createElement('div');
+					timelineEntry.classList.add('row');
+
+          const timelineEntryInner = document.createElement('div');
+          timelineEntryInner.classList.add('col-md-12', 'col-sm-6');
+
+					const blogEntry = document.createElement('div');
+          blogEntry.classList.add('blog-entry');
+
+					const blogEntryInner = document.createElement('div');
+          blogEntryInner.classList.add('desc');
+
+					const span = document.createElement('span');
+					span.innerHTML = `<small>${rec.date}</small> | <small> ${rec.manager} </small>`
+
+					const h3 = document.createElement('h3');
+					h3.innerHTML = `<a href="${rec.linkedin}">${rec.name}, ${rec.title} </a>`
+
+					const p = document.createElement('p');
+					p.innerHTML = `${rec.testimonial}`
+
+          blogEntryInner.appendChild(span);
+          blogEntryInner.appendChild(h3);
+          blogEntryInner.appendChild(p);
+
+          blogEntry.appendChild(blogEntryInner);
+          timelineEntryInner.appendChild(blogEntry);
+          timelineEntry.appendChild(timelineEntryInner);
+
+          // Append each timeline entry to the work experience section
+          RecommendationsSection.appendChild(timelineEntry);
+        });
+
+					// Projects Section
+					const ProjectsSection = document.getElementById('projects-section');
+					data.projects.forEach((proj) => {
+						// Create the HTML structure for each work experience
+						const timelineEntry = document.createElement('div');
+						timelineEntry.classList.add('partition');
+	
+						const timelineEntryHeader = document.createElement('div');
+						timelineEntryHeader.classList.add('col-md-12');
+						timelineEntryHeader.innerHTML = `<p class="work-menu" style="font-size: 30px"><span class="active"><strong>${proj.category}</strong></span></p>`;
+						timelineEntry.appendChild(timelineEntryHeader)
+
+						const timelineEntryRow = document.createElement('div');
+						timelineEntryRow.classList.add('row');
+						proj.items.forEach((item) => {
+							const projItem = document.createElement('div');
+							projItem.classList.add('col-md-4');
+							
+							const projectEntry = document.createElement('div');
+							projectEntry.classList.add('project');
+							projectEntry.style.backgroundImage = `url(${item.image})`;
+
+							const desc = document.createElement('div');
+							desc.classList.add('desc');
+
+							const con = document.createElement('div');
+							con.classList.add('con');
+
+							const h3 = document.createElement('h3');
+							h3.innerHTML = `${item.title}`;
+		
+							const span = document.createElement('span');
+							span.innerHTML = `${item.description}`;
+
+							const icons = document.createElement('p');
+							icons.classList.add('icon');
+
+							const iconSpan = document.createElement('span');
+							iconSpan.innerHTML = `Important Links - `;
+							icons.appendChild(iconSpan)
+
+							item.links.forEach((link) => {
+								const linkSpan = document.createElement('span');
+          			linkSpan.innerHTML = `<a href="${link.url}" target="_blank">${link.name}</a>`;
+								icons.appendChild(linkSpan)
+							});
+
+							con.appendChild(h3);
+							con.appendChild(span);
+							con.appendChild(icons);
+
+							desc.appendChild(con);
+							projectEntry.appendChild(desc);
+							projItem.appendChild(projectEntry);
+							timelineEntryRow.appendChild(projItem)
+						});
+						timelineEntry.appendChild(timelineEntryRow)
+						ProjectsSection.appendChild(timelineEntry);
+					});
+
+					const educationSection = document.getElementById('education-section');
+					const accordionId = 'accordion'; // Id for the accordion
+	
+					// Create the accordion div container
+					const accordionDiv = document.createElement('div');
+					accordionDiv.classList.add('panel-group');
+					accordionDiv.id = accordionId;
+					accordionDiv.setAttribute('role', 'tablist');
+					accordionDiv.setAttribute('aria-multiselectable', 'true');
+	
+					data.educations.forEach((edu, index) => {
+						const panelDiv = document.createElement('div');
+						panelDiv.classList.add('panel', 'panel-default');
+	
+						const headingId = `heading${index + 1}`;
+						const collapseId = `collapse${index + 1}`;
+	
+						const panelHeadingDiv = document.createElement('div');
+						panelHeadingDiv.classList.add('panel-heading');
+						panelHeadingDiv.setAttribute('role', 'tab');
+						panelHeadingDiv.id = headingId;
+	
+						const h4 = document.createElement('h4');
+						h4.classList.add('panel-title');
+	
+						const anchor = document.createElement('a');
+						anchor.setAttribute('data-toggle', 'collapse');
+						anchor.setAttribute('data-parent', `#${accordionId}`);
+						anchor.href = `#${collapseId}`;
+						anchor.setAttribute('aria-expanded', index === 0 ? 'true' : 'false');
+						anchor.setAttribute('aria-controls', collapseId);
+						if (index !== 0) {
+							anchor.classList.add('collapsed');
+						}
+						anchor.textContent = edu.degree;
+	
+						h4.appendChild(anchor);
+						panelHeadingDiv.appendChild(h4);
+	
+						const collapseDiv = document.createElement('div');
+						collapseDiv.id = collapseId;
+						collapseDiv.classList.add('panel-collapse', 'collapse');
+						collapseDiv.setAttribute('role', 'tabpanel');
+						collapseDiv.setAttribute('aria-labelledby', headingId);
+	
+						if (index === 0) {
+							collapseDiv.classList.add('in'); // First panel open by default
+						}
+	
+						const panelBodyDiv = document.createElement('div');
+						panelBodyDiv.classList.add('panel-body');
+	
+						// Adding educational details
+						const rowDiv = document.createElement('div');
+						rowDiv.classList.add('row');
+	
+						const colDiv1 = document.createElement('div');
+						colDiv1.classList.add('col-md-12');
+						colDiv1.innerHTML = `<p>${edu.description} from <strong>${edu.institution}</strong></p>`;
+	
+						const colDiv2 = document.createElement('div');
+						colDiv2.classList.add('col-md-12');
+						colDiv2.innerHTML = `<p><strong>${edu.details}</strong></p>`;
+	
+						rowDiv.appendChild(colDiv1);
+						rowDiv.appendChild(colDiv2);
+	
+						panelBodyDiv.appendChild(rowDiv);
+						collapseDiv.appendChild(panelBodyDiv);
+	
+						panelDiv.appendChild(panelHeadingDiv);
+						panelDiv.appendChild(collapseDiv);
+	
+						accordionDiv.appendChild(panelDiv);
+					});
+	
+					// Append the generated accordion structure to the education section
+					educationSection.appendChild(accordionDiv);
+
+					const hobbiesSection = document.getElementById('hobbies-section');
+
+					data.hobbies.forEach((skill, index) => {
+						const colElement = document.createElement('div');
+						colElement.classList.add('col-md-4', 'text-center');
+
+						const servicesElement = document.createElement('div');
+						const colorClass = `color-${index + 1}`;
+						servicesElement.classList.add('services', colorClass);  // Add dynamic color class
+
+						const spanElement = document.createElement('span');
+						spanElement.classList.add('icon');
+
+						const iconElement = document.createElement('i');
+						iconElement.classList.add(skill.iconClass);  // Add dynamic icon class
+						spanElement.appendChild(iconElement);
+
+						const descElement = document.createElement('div');
+						descElement.classList.add('desc');
+
+						const h3Element = document.createElement('h3');
+						h3Element.textContent = skill.title;
+
+						const pElement = document.createElement('p');
+						pElement.textContent = skill.description;
+
+						descElement.appendChild(h3Element);
+						descElement.appendChild(pElement);
+
+						servicesElement.appendChild(spanElement);
+						servicesElement.appendChild(descElement);
+
+						colElement.appendChild(servicesElement);
+
+						hobbiesSection.appendChild(colElement);
+					});
+
+					const skillsRowElement = document.getElementById('about-skills');
+
+					data.about[0].skills.forEach((skill, index) => {
+						const colElement = document.createElement('div');
+						colElement.classList.add('col-md-3');
+
+						const servicesElement = document.createElement('div');
+						const colorClass = `color-${index + 1}`;
+						servicesElement.classList.add('services', colorClass); // Add dynamic color class
+
+						const spanElement = document.createElement('span');
+						spanElement.classList.add('icon2');
+
+						const iconElement = document.createElement('i');
+						iconElement.classList.add(skill.iconClass); // Add dynamic icon class
+						spanElement.appendChild(iconElement);
+
+						const h3Element = document.createElement('h3');
+						h3Element.textContent = skill.title;
+
+						servicesElement.appendChild(spanElement);
+						servicesElement.appendChild(h3Element);
+						colElement.appendChild(servicesElement);
+
+						skillsRowElement.appendChild(colElement);
+					});
+
+					const aboutDescElement = document.getElementById('about-desc');
+					const descriptionElement = document.createElement('p');
+					descriptionElement.innerHTML = data.about[0].description;
+					aboutDescElement.appendChild(descriptionElement);
+
+					const leftPanelElement = document.getElementById('left-panel');
+					const spanElement = document.createElement('span');
+					spanElement.classList.add('position')
+					spanElement.innerHTML = `<a>${data.about[0].title}</a>`;
+					const iamgeElement = document.createElement('div');
+					iamgeElement.classList.add('author-img')
+					iamgeElement.style.backgroundImage = `url(${data.about[0].logo})`;
+					const nameElement = document.createElement('h1');
+					nameElement.id = 'colorlib-logo'
+					nameElement.innerHTML = `<a href="index.html">${data.about[0].name}</a>`
+					leftPanelElement.appendChild(iamgeElement);
+					leftPanelElement.appendChild(nameElement);
+					leftPanelElement.appendChild(spanElement);
+
+
+					const homePageElement = document.getElementById('home-page');
+					const homeName = document.createElement('h1');
+					homeName.innerHTML = data.about[0].name
+					const homeTitle = document.createElement('h2');
+					homeTitle.innerHTML = data.about[0].home_subtitle
+					const a = document.createElement('a');
+          a.href = data.about[0].resume;
+					a.type = 'button'
+					a.classList.add('btn', 'btn-primary', 'accent' ,'register', 'btn-lg')
+          a.target = '_blank';
+					a.innerHTML = `Download CV<i class="icon-download4"></i>`;
+					homePageElement.appendChild(homeName);
+					homePageElement.appendChild(homeTitle);
+					homePageElement.appendChild(a);
+
+					const emailElement = document.getElementById('email');
+					const p = document.createElement('p');
+					p.innerHTML = `<a href="mailto:${data.about[0].email}">${data.about[0].email}</a>`
+					emailElement.append(p)
+
+					const locationElement = document.getElementById('location');
+					const location = document.createElement('p');
+					location.innerHTML = data.about[0].location
+					locationElement.append(location)
+
+					const phoneElement = document.getElementById('phone');
+					const phone = document.createElement('p');
+					phone.innerHTML = `<a href="tel:${data.about[0].phone}">${data.about[0].phone}</a>`
+					phoneElement.append(phone)
+					
+			})
+			.catch(error => {
+				console.error('Error fetching data:', error);
+			});
+		});
 
 
 }());
