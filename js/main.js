@@ -299,7 +299,7 @@
 		// stickyFunction();
 		owlCrouselFeatureSlide();
 	
-		const apiUrl = 'https://us-central1-portfolio-api-2-4a95a.cloudfunctions.net/api/api/fetch-data'; // Replace with your actual API
+		const apiUrl = 'https://us-central1-portfolio-api-2-4a95a.cloudfunctions.net/api/api/fetch-data';
 
 		// Fetch the data
 		fetch(apiUrl)
