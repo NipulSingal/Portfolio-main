@@ -308,14 +308,21 @@
 				console.log(data)
 				// Skills Section
 				const skillsContainer = document.getElementById('skills-list');
-				const skillsHTML = data.skills.map(skill => {
-					return `
-						<img style="width: 50px; margin: 10px;" 
-									src="${skill.icon}" 
-									title="${skill.name}" />
-					`;
-				}).join('');
-				skillsContainer.innerHTML = skillsHTML;
+				const skillFragment = document.createDocumentFragment();
+			
+				data.skills.forEach(skill => {
+					const img = document.createElement('img');
+					img.src = skill.icon;
+					img.title = skill.name;
+					img.style.width = '50px';
+					img.style.margin = '10px';
+					img.loading = 'lazy'; // Lazy load images
+			
+					skillFragment.appendChild(img);
+				});
+			
+				// Append all images to the DOM at once
+				skillsContainer.appendChild(skillFragment);
 
 				// Work Experience Section
 				const workExperienceSection = document.getElementById('work-experience-section');
